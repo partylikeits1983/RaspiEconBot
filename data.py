@@ -96,7 +96,7 @@ data_df = plot_tickers(tickers, start, end, interval, track, log_plot, normalize
 
 # calculate and plot correlations
 calc_correlation(data_df, track)
-plt.savefig('/charts/correlationmatrix30.jpeg', dpi=400, bbox_inches='tight')
+plt.savefig('charts/correlationmatrix30.jpeg', dpi=400, bbox_inches='tight')
 
 
 #### Yield Curves:
@@ -112,7 +112,7 @@ df.columns = ['Today', '1 Month ago']
 df.plot(style={'Today': 'ro-', '1 month ago': 'bx--'}
         ,title='US Treasury Yield Curve, %', figsize=(15,10));
 
-plt.savefig('/charts/yieldUS.jpeg', dpi=400, bbox_inches='tight')
+plt.savefig('charts/yieldUS.jpeg', dpi=400, bbox_inches='tight')
 
 
 
@@ -202,7 +202,7 @@ df.plot(style={'Today': 'ro-', '1 month ago': 'bx--'}
         ,title='Russian Government Bond Yield Curve, %', figsize=(15,10));
 
 
-plt.savefig('/charts/yieldRU.jpeg', dpi=400, bbox_inches='tight')
+plt.savefig('charts/yieldRU.jpeg', dpi=400, bbox_inches='tight')
 
 
 
@@ -280,7 +280,7 @@ df = df.set_index('DATE')
 
 df.plot(figsize=(15,10))
 
-plt.savefig('/charts/giniUS.jpeg', dpi=400, bbox_inches='tight')
+plt.savefig('charts/giniUS.jpeg', dpi=400, bbox_inches='tight')
 
 df.to_csv("giniUS.csv")
 
@@ -303,7 +303,7 @@ Y_pred = linear_regressor.predict(X)  # make predictions
 
 plt.scatter(X, Y)
 plt.plot(X, Y_pred, color='red')
-plt.savefig('/charts/giniUSlinRegression.jpeg', dpi=400, bbox_inches='tight')
+plt.savefig('charts/giniUSlinRegression.jpeg', dpi=400, bbox_inches='tight')
 
 
 
