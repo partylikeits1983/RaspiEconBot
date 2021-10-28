@@ -75,10 +75,10 @@ def update(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
 
-    USND1 = open('USND.txt', 'r').read()
-    USGDP = open('USGDP.txt', 'r').read()
-    USDR = open('USDR.txt', 'r').read()
-    USEDR = open('USEDR.txt', 'r').read()
+    USND1 = open('data/USND.txt', 'r').read()
+    USGDP = open('data/USGDP.txt', 'r').read()
+    USDR = open('data/USDR.txt', 'r').read()
+    USEDR = open('data/USEDR.txt', 'r').read()
 
     US = 'US National Debt: %s /n US Nominal GDP: %s /n US Internal Debt to GDP Ratio %s /n US External Debt to GDP Ratio: %s' % (USND1, USGDP, USDR, USEDR)
 
