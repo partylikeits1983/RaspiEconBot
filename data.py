@@ -379,9 +379,21 @@ print(RUND)
 print(DEDR)
 driver.close()
 
-a = str(USND)
-#b = "{}".format(a)
-file = open('USND.txt', 'w')
-file.write(a)
-file.close()
+varList = [USND, USGDP, USDR, USEDR, ZHND, ZHGDP, ZHDR, ZHEDR, JPND, JPGDP, JPDR, JPEDR, DEDR, DEGDP, DEDR, DEEDR, UKND, UKGDP, UKDR, UKEDR, RUND, RUGDP, RUDR, RUEDR]
+varListNames = ["USND", "USGDP", "USDR", "USEDR", "ZHND", "ZHGDP", "ZHDR", "ZHEDR", "JPND", "JPGDP", "JPDR", "JPEDR", "DEDR", "DEGDP", "DEDR", "DEEDR", "UKND", "UKGDP", "UKDR", "UKEDR", "RUND", "RUGDP", "RUDR", "RUEDR"]
+
+no = 0
+
+for i in varList:
+    a = str(i)
+
+    x = varListNames[no]
+    
+    file = open(('data/%s.txt') % x, 'w')
+    file.write(a)
+    file.close()
+
+    no += 1
+
+
 
