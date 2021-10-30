@@ -75,13 +75,12 @@ def list(update: Update, context: CallbackContext) -> None:
 
 
 
-
-
-
 def update(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
     # open csv and manipulate data
+
+    df = pd.read_csv("/home/ubuntu/Desktop/stocks.csv")
 
 
 

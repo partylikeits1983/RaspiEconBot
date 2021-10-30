@@ -21,6 +21,22 @@ import matplotlib.pyplot as plt  # To visualize
 import pandas as pd  # To read data
 from sklearn.linear_model import LinearRegression
 
+import os
+from pathlib import Path
+
+import sys
+import csv
+import ccxt
+
+import numpy as np
+from pandas_datareader import data as pdr
+import pandas as pd
+import talib.abstract as ta
+
+
+
+
+
 
 #####how many days the correlation is looking at
 today = date.today()
@@ -395,5 +411,223 @@ for i in varList:
 
     no += 1
 
+################  Data frames
 
 
+def plot_tickers(tickers, start, end, interval):
+    df = yf.download(tickers,
+                          start=start,
+                          end=end,
+                          interval=interval,
+                          progress=False)
+
+    return df
+
+
+#####how many days the correlation is looking at
+today = date.today()
+d = datetime.timedelta(days=30)
+start = today - d
+
+tickers = 'EURUSD=X RUB=X USDCNY=X CL=F GLD TSLA PYPL ^RUT ^IXIC ^GSPC'
+
+# Timeframe
+start = '{}'.format(start)
+end = '{}'.format(today)
+
+# Time interval: can be 1m, 1h, 1d
+interval = '1d'
+
+df = plot_tickers(tickers, start, end, interval)
+
+df = df.drop(df.columns[10:60], axis=1)
+
+
+df.to_csv('data/stocks.csv')
+
+
+df = pd.read_csv("data/stocks.csv")
+df.rename(columns={'Unnamed: 0': 'Date'}, inplace = True)
+#df = df.set_index(df['Date'])
+#df = df.drop(['Date'], axis=1)
+#df.columns = df.iloc[0]
+df1 = df["Date"]
+df1 = df1.iloc[2:]
+
+df = df.drop(['Date'], axis=1)
+df.columns = df.iloc[0]
+df = df.iloc[2:]
+
+numbers = df1
+
+df = df.join(numbers)
+
+df = df.set_index(df['Date'])
+#df = df.set_index(df['Date'])
+#df = df.rename({0: 'Date'}, axis=1)
+#df.index.names = ['Date']
+#df = df1["Date"]
+df = df.drop(['Date'], axis=1)
+
+df.to_csv("data/stocks.csv")
+
+
+# find the percentage change with the previous row
+df = pd.read_csv("data/stocks.csv")
+df = df.set_index(df['Date'])
+df = df.drop(['Date'], axis=1)
+
+df = df.pct_change()
+
+
+
+################# indicators for stonks 
+
+today = date.today()
+d = datetime.timedelta(days=365)
+start = today - d
+
+
+#yf.pdr_override() 
+
+l = ['EURUSD=X', 'RUB=X', 'USDCNY=X', 'CL=F', 'GLD', 'TSLA', 'PYPL', '^RUT', '^IXIC', '^GSPC']
+
+for i in l:
+
+    df = pd.DataFrame()
+    df = pdr.get_data_yahoo(i, start, end)
+
+    df.rename(columns={'Close': 'close'}, inplace = True)
+
+    # 50 EMA
+    n = 50
+    EMA = pd.Series(df['close'].ewm(span=n, min_periods=n).mean(), name='EMA_' + str(n))
+    df = df.join(EMA)
+
+    # 200 EMA 
+    n = 200
+    EMA = pd.Series(df['close'].ewm(span=n, min_periods=n).mean(), name='EMA_' + str(n))
+    df = df.join(EMA)
+
+    df['RSI'] = ta.RSI(df)
+
+    # save the CSV 
+    df.to_csv("data/%s.csv" % i)
+
+
+########################## Crypto ##########################
+
+root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(''))))
+sys.path.append(root + '/python')
+
+
+# -----------------------------------------------------------------------------
+
+def retry_fetch_ohlcv(exchange, max_retries, symbol, timeframe, since, limit):
+    num_retries = 0
+    try:
+        num_retries += 1
+        ohlcv = exchange.fetch_ohlcv(symbol, timeframe, since, limit)
+        # print('Fetched', len(ohlcv), symbol, 'candles from', exchange.iso8601 (ohlcv[0][0]), 'to', exchange.iso8601 (ohlcv[-1][0]))
+        return ohlcv
+    except Exception:
+        if num_retries > max_retries:
+            raise  # Exception('Failed to fetch', timeframe, symbol, 'OHLCV in', max_retries, 'attempts')
+
+
+def scrape_ohlcv(exchange, max_retries, symbol, timeframe, since, limit):
+    earliest_timestamp = exchange.milliseconds()
+    timeframe_duration_in_seconds = exchange.parse_timeframe(timeframe)
+    timeframe_duration_in_ms = timeframe_duration_in_seconds * 1000
+    timedelta = limit * timeframe_duration_in_ms
+    all_ohlcv = []
+    while True:
+        fetch_since = earliest_timestamp - timedelta
+        ohlcv = retry_fetch_ohlcv(exchange, max_retries, symbol, timeframe, fetch_since, limit)
+        # if we have reached the beginning of history
+        if ohlcv[0][0] >= earliest_timestamp:
+            break
+        earliest_timestamp = ohlcv[0][0]
+        all_ohlcv = ohlcv + all_ohlcv
+        print(len(all_ohlcv), symbol, 'candles in total from', exchange.iso8601(all_ohlcv[0][0]), 'to', exchange.iso8601(all_ohlcv[-1][0]))
+        # if we have reached the checkpoint
+        if fetch_since < since:
+            break
+    return all_ohlcv
+
+
+def write_to_csv(filename, exchange, data):
+    p = Path("", str(exchange))
+    p.mkdir(parents=True, exist_ok=True)
+    full_path = p / str(filename)
+    with Path(full_path).open('w+', newline='') as output_file:
+        csv_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        csv_writer.writerows(data)
+
+
+def scrape_candles_to_csv(filename, exchange_id, max_retries, symbol, timeframe, since, limit):
+    # instantiate the exchange by id
+    exchange = getattr(ccxt, exchange_id)({
+        'enableRateLimit': True,  # required by the Manual
+    })
+    # convert since from string to milliseconds integer if needed
+    if isinstance(since, str):
+        since = exchange.parse8601(since)
+    # preload all markets from the exchange
+    exchange.load_markets()
+    # fetch all candles
+    ohlcv = scrape_ohlcv(exchange, max_retries, symbol, timeframe, since, limit)
+    # save them to csv file
+    write_to_csv(filename, exchange, ohlcv)
+    print('Saved', len(ohlcv), 'candles from', exchange.iso8601(ohlcv[0][0]), 'to', exchange.iso8601(ohlcv[-1][0]), 'to', filename)
+
+    
+df = pd.DataFrame()
+
+
+today = date.today()
+d = datetime.timedelta(days=300)
+s = str(today - d)
+start = s + '00:00:00Z'
+
+
+l = ['BTC','ETH','UNI','CRV']
+
+for i in l:
+    file = '%s.csv' % i
+    pair = '%s/USDT' % i 
+    scrape_candles_to_csv(file, 'binance', 3, pair, '1d', start, 365)
+    
+
+df = pd.read_csv('Binance/BTC.csv', header=None)
+
+df.rename(columns={0: 'Unix', 1: 'BTC_Open', 2: 'BTC_High',3: 'BTC_Low', 4:'BTC_Close'}, inplace = True)
+df = df.drop(columns=[5])
+
+
+l = ['BTC','ETH','UNI','CRV']
+
+for i in l:
+    
+    file = 'Binance/%s.csv' % i
+    df1 = pd.read_csv(file, header=None)
+    
+    df[i+'_Open'] = df1[1]
+    df[i+'_High'] = df1[2]
+    df[i+'_Low'] = df1[3]
+    df[i+'_Close'] = df1[4] 
+    
+    #df[i] = df1[3]
+ 
+df.to_csv('data/crypto.csv')
+
+
+df = pd.read_csv('data/crypto.csv')
+df.tail()
+
+df = df.pct_change()
+
+df.to_csv('data/crypto_pct_change.csv')
+
+
+df = pd.DataFrame()
