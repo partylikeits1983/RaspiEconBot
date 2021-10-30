@@ -168,7 +168,7 @@ for i in range(12):
     
 
 print(rates)
-print(url)
+
 
 
 #yield curve CBRF one month ago
@@ -205,7 +205,7 @@ for i in range(12):
     
 
 print(rates1)
-print(url)
+
 
 # Russian bonds have different maturity rates as compared to US Tbonds
 index = ["3M0","6MO","9M","1Y","2Y","3Y","5Y","7Y","10Y","15Y","20Y","30Y"]
@@ -240,7 +240,6 @@ soup = BeautifulSoup(response.text, "html.parser")
 KeyRateUS = soup.findAll('span',{"class":"series-meta-observation-value"})[0].decode_contents()
 
 print(KeyRateUS)
-
 
 
 #m1 MONEY SUPPLY
@@ -391,15 +390,39 @@ print("USGDP = " + USGDP)
 print("USDR = " + USDR)
 print("USEDR = " + USEDR)
 
-print(RUND)
-print(DEDR)
+print("ZHND = " + ZHND)
+print("ZHGDP = " + ZHGDP)
+print("ZHDR = " + ZHDR)
+print("ZHEDR = " + ZHEDR)
+
+print("JPND = " + JPND)
+print("JPGDP = " + JPGDP)
+print("JPDR = " + JPDR)
+print("JPEDR = " + JPEDR)
+
+print("DEDR = " + DEDR)
+print("DEGDP = " + DEGDP)
+print("DEDR = " + DEDR)
+print("DEEDR = " + DEEDR)
+
+print("UKND = " + UKND)
+print("UKGDP = " + UKGDP)
+print("UKDR = " + UKDR)
+print("UKEDR = " + UKEDR)
+
+print("RUND = " + RUND)
+print("RUGDP = " + RUGDP)
+print("RUDR = " + RUDR)
+print("RUEDR = " + RUEDR)
+
+
 driver.close()
 
 varList = [USND, USGDP, USDR, USEDR, ZHND, ZHGDP, ZHDR, ZHEDR, JPND, JPGDP, JPDR, JPEDR, DEDR, DEGDP, DEDR, DEEDR, UKND, UKGDP, UKDR, UKEDR, RUND, RUGDP, RUDR, RUEDR]
 varListNames = ["USND", "USGDP", "USDR", "USEDR", "ZHND", "ZHGDP", "ZHDR", "ZHEDR", "JPND", "JPGDP", "JPDR", "JPEDR", "DEDR", "DEGDP", "DEDR", "DEEDR", "UKND", "UKGDP", "UKDR", "UKEDR", "RUND", "RUGDP", "RUDR", "RUEDR"]
 
 no = 0
-
+# save to txt file probably would be better to save to csv but what works works 
 for i in varList:
     a = str(i)
 
