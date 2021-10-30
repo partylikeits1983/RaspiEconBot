@@ -671,6 +671,6 @@ for i in l:
     df['RSI'] = ta.RSI(df)
 
     # save the CSV 
-    df.to_csv("%s.csv" % i)
+    df.to_csv("data/%s.csv" % i)
 
 df.tail()
