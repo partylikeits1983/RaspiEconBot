@@ -631,3 +631,46 @@ df.to_csv('data/crypto_pct_change.csv')
 
 
 df = pd.DataFrame()
+
+
+
+######## crypto indicators
+
+
+
+yf.pdr_override() 
+df1 = pd.read_csv('data/crypto.csv')
+
+n = 30
+
+#for loop for each asset and indicator in the csv file
+for i in l:
+    
+    # reset the df 
+    df = pd.DataFrame()
+    # you don't need to reset index
+    df['Unix'] = df1['Unix']
+    
+    # add column - don't want to call binance API too much thats why we import csv
+    df['open'] = df1[i+'_Open']
+    df['high'] = df1[i+'_High']
+    df['low'] = df1[i+'_Low']
+    df['close'] = df1[i+'_Close']
+    
+    #EMA 
+    n = 50
+    EMA = pd.Series(df['close'].ewm(span=n, min_periods=n).mean(), name='EMA_' + str(n))
+    df = df.join(EMA)
+
+    n = 200
+    EMA = pd.Series(df['close'].ewm(span=n, min_periods=n).mean(), name='EMA_' + str(n))
+    df = df.join(EMA)
+
+
+    # TA lib indicators
+    df['RSI'] = ta.RSI(df)
+
+    # save the CSV 
+    df.to_csv("%s.csv" % i)
+
+df.tail()
