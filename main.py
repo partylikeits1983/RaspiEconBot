@@ -33,7 +33,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
-    keyboard = [['/update', '/matricies'],
+    keyboard = [['/update', '/macro'],
                ['/yieldcurves', '/info'],
                ['/list'],]
 
@@ -65,14 +65,24 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 
+
+
+
 def list(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(
         'Commands: \n/BTC \n/ETH \n/UNI \n/GOLD \n/OIL  \n/SP500 \n/EUR \n/RUB'
         )
 
 
+
+
+
+
 def update(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
+
+    # open csv and manipulate data
+
 
 
     USND1 = open('data/USND.txt', 'r').read()
@@ -90,6 +100,14 @@ def update(update, context):
     update.message.reply_text(
         'Type /list to view specific assets'
         )
+
+
+
+
+
+
+
+
 
 
     from datetime import datetime
@@ -113,7 +131,7 @@ def update(update, context):
 
 def matricies(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
-    photo = open('/home/ubuntu/Desktop/TelegramBot/charts/correlationmatrix180.jpeg', 'rb')
+    photo = open('charts/correlationmatrix30.jpeg', 'rb')
     caption = "180 day correlation matrix {}".format(today)
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id, photo, caption)
@@ -126,8 +144,14 @@ def matricies(update, context):
 
 def yieldcurve(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
-    photo = open('/home/ubuntu/Desktop/TelegramBot/charts/yield.jpeg', 'rb')
-    caption = "Yield Curve {}".format(today)
+    photo = open('charts/yieldUS.jpeg', 'rb')
+    caption = "US Treasury Yield Curve {}".format(today)
+    chat_id = update.message.chat_id
+    context.bot.send_photo(chat_id, photo, caption)
+
+    context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
+    photo = open('charts/yieldRU.jpeg', 'rb')
+    caption = "Russian Government Bond Yield Curve {}".format(today)
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id, photo, caption)
 
