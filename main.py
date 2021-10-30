@@ -29,6 +29,37 @@ today = date.today()
 bot = telegram.Bot(TOKEN)
 
 
+
+
+"""
+
+
+    keyboard = [['/update', '/macro'],
+               ['/yieldcurves', '/info'],
+               ['/list'],]
+
+
+
+    update: shows you the current price, % change, RSI, EMA death cross 
+
+    macro: sends you world debt values 
+
+    marcrocharts: sends you gini and stuff
+
+    yieldcurves: sends you yield curves
+
+    
+
+
+
+
+"""
+
+
+
+
+
+
 def start(update: Update, context: CallbackContext) -> None:
 
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
@@ -80,7 +111,10 @@ def update(update, context):
 
     # open csv and manipulate data
 
-    df = pd.read_csv("/home/ubuntu/Desktop/stocks.csv")
+    df = pd.read_csv("data/stocks.csv")
+
+
+
 
 
 
@@ -93,7 +127,10 @@ def update(update, context):
 
 
     chat_id = update.message.chat_id
-    dailyupdate = ("▪{}").format(US)
+
+    #dailyupdate = ("▪️{}\n\n▪️{}\n\n▪️{}\n\n▪️{}\n\n▪️{}\n\n▪️{}\n\n🇪🇺{}\n\n🇷🇺{}").format(BTC,ETH,UNI,SP,GOLD,OIL,EUR,RUB)
+
+    #dailyupdate = ("▪{}").format(US)
     bot.send_message(chat_id, dailyupdate)
 
     update.message.reply_text(
