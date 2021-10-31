@@ -90,7 +90,7 @@ def calc_correlation(data_df, track):
 
 
 #BTC-USD ETH-USD 
-tickers = 'EURUSD=X RUB=X CL=F GLD SPY'
+tickers = 'EURUSD=X RUB=X CL=F GC=F SPY'
 
 # Timeframe
 start = '{}'.format(start)
@@ -455,7 +455,7 @@ today = date.today()
 d = datetime.timedelta(days=30)
 start = today - d
 
-tickers = 'EURUSD=X RUB=X USDCNY=X CL=F GLD TSLA PYPL ^RUT ^IXIC ^GSPC'
+tickers = 'EURUSD=X RUB=X USDCNY=X CL=F GC=F TSLA PYPL ^RUT ^IXIC ^GSPC'
 
 # Timeframe
 start = '{}'.format(start)
@@ -513,15 +513,21 @@ today = date.today()
 d = datetime.timedelta(days=365)
 start = today - d
 
+start = '{}'.format(start)
+end = '{}'.format(today)
 
-#yf.pdr_override() 
+interval = '1d'
 
-l = ['EURUSD=X', 'RUB=X', 'USDCNY=X', 'CL=F', 'GLD', 'TSLA', 'PYPL', '^RUT', '^IXIC', '^GSPC']
+l = ['EURUSD=X', 'RUB=X', 'USDCNY=X', 'CL=F', 'GC=F', 'TSLA', 'PYPL', '^RUT', '^IXIC', '^GSPC']
 
 for i in l:
 
     df = pd.DataFrame()
-    df = pdr.get_data_yahoo(i, start, end)
+    
+    ticker = i
+
+    df = yf.download(ticker,start=start,end=end,interval=interval,progress=False)
+
 
     df.rename(columns={'Close': 'close'}, inplace = True)
 
@@ -538,7 +544,12 @@ for i in l:
     df['RSI'] = ta.RSI(df)
 
     # save the CSV 
+    print('Downloading historical data for %s' % i)
     df.to_csv("data/%s.csv" % i)
+
+
+
+
 
 
 ########################## Crypto ##########################
@@ -699,4 +710,6 @@ for i in l:
     # save the CSV 
     df.to_csv("data/%s.csv" % i)
 
-df.tail()
+
+# download for stocks
+
