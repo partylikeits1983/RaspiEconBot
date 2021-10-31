@@ -220,7 +220,7 @@ def update(update, context):
     dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
     logfile = [dt_string, chat_id, fullname, username, 'update']
 
-    with open('/home/ubuntu/Desktop/telegrambotlog.csv', 'a', newline='') as myfile:
+    with open('telegrambotlog.csv', 'a', newline='') as myfile:
         wr = csv.writer(myfile)
         wr.writerow(logfile)
 
