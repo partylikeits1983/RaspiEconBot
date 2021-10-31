@@ -141,7 +141,7 @@ def update(update, context):
         # iterate through list l
         s = l[x]
         # current price string 
-        current = ('%s: $' % i) + str(round(d['LivePrice{}'.format(s)],2))
+        current = ('%s: ' % i) + str(round(d['LivePrice{}'.format(s)],2))
         # percent change 
         pct = d['pct_Change{}'.format(s)]
         
