@@ -1,18 +1,18 @@
-
 import os
 import time as t
 from datetime import datetime
 import time as t
-import datetime
+import schedule
 
-from apscheduler.schedulers.blocking import BlockingScheduler
 
-print("started automation")
+def automate():
+   os.system("gnome-terminal -e 'bash -c \"./automatebot.sh; exec bash\"'")
+    #os.system("./automatebot.sh")
+    
+schedule.every(1).hour.do(automate)
+schedule.every(1).day.do(automate)
 
-def some_job():
-    os.system("gnome-terminal -e 'bash -c \"./automatebot.sh; exec bash\"'")
-    print("updated stats at " + str(datetime.datetime.now()))
-
-scheduler = BlockingScheduler()
-scheduler.add_job(some_job, 'interval', hours=1)
-scheduler.start()
+while True:
+    schedule.run_pending()
+    t.sleep(1)
+    print('Waiting to update models.')
