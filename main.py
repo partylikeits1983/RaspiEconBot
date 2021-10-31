@@ -131,11 +131,62 @@ def update(update, context):
         d["RSI{}".format(i)] = df['EMA_200'].iloc[-1]
 
     
-    updateMessage = "Euro"
 
+    l2 = ['Euro', 'Ruble', 'CNYen', 'Brent', 'Gold', 'Tesla', 'Paypal', 'Russel', 'Nasdaq', 'DJI']
 
+    message = ''
+    x = 0
 
-    US = 'US National Debt: %s /n US Nominal GDP: %s /n US Internal Debt to GDP Ratio %s /n US External Debt to GDP Ratio: %s' % (USND1, USGDP, USDR, USEDR)
+    for i in l2:
+        # iterate through list l
+        s = l[x]
+        # current price string 
+        current = ('%s: $' % i) + str(round(d['LivePrice{}'.format(s)],2))
+        # percent change 
+        pct = d['pct_Change{}'.format(s)]
+        
+        percent = round((100 * pct),2)
+        
+        
+        # percent change string 
+        if percent > 0:
+            percentChange = ' 🟢' + str(percent) + 'Δ%'
+        else: 
+            percentChange = ' 🔴' + str(percent) + 'Δ%'
+        
+
+        # EMA
+        ema50 = round(d['EMA_50{}'.format(s)],2)
+        ema200 = round(d['EMA_200{}'.format(s)],2)
+        
+        #EMA string
+        if ema50 > ema200:
+            
+            EMA = ' EMA trend 📈 '
+            
+        else: 
+            EMA = ' EMA trend 📉 '
+        
+        #RSI
+        rsi = round(d['RSI{}'.format(s)],2)
+        
+        #RSI string
+        if rsi > 70:
+            RSI = ' RSI: {}'.format(rsi) + ' 🔥 '
+            
+        elif rsi < 30:
+            RSI = ' RSI: {}'.format(rsi) + ' 💩 '
+            
+        else:
+            RSI = ' RSI: {}'.format(rsi)
+            
+        
+        m = current + percentChange + EMA + RSI + '\n'
+        
+        message = message + m
+        
+        x += 1
+        
 
 
     chat_id = update.message.chat_id
@@ -143,7 +194,7 @@ def update(update, context):
     #dailyupdate = ("▪️{}\n\n▪️{}\n\n▪️{}\n\n▪️{}\n\n▪️{}\n\n▪️{}\n\n🇪🇺{}\n\n🇷🇺{}").format(BTC,ETH,UNI,SP,GOLD,OIL,EUR,RUB)
 
     #dailyupdate = ("▪{}").format(US)
-    bot.send_message(chat_id, dailyupdate)
+    bot.send_message(chat_id, message)
 
     update.message.reply_text(
         'Type /list to view specific assets'
