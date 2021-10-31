@@ -485,7 +485,7 @@ def main():
     dispatcher.add_handler(CommandHandler("help", start))
     dispatcher.add_handler(CommandHandler("list", list))
     dispatcher.add_handler(CommandHandler("updateStocks", updateStocks))
-    dispatcher.add_handler(CommandHandler("updateCrypto", updateStocks))
+    dispatcher.add_handler(CommandHandler("updateCrypto", updateCrypto))
 
     dispatcher.add_handler(CommandHandler("macro", matricies))
 
