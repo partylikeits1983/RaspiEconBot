@@ -29,16 +29,7 @@ today = date.today()
 bot = telegram.Bot(TOKEN)
 
 
-
-
 """
-
-
-    keyboard = [['/update', '/macro'],
-               ['/yieldcurves', '/info'],
-               ['/list'],]
-
-
 
     update: shows you the current price, % change, RSI, EMA death cross 
 
@@ -48,33 +39,28 @@ bot = telegram.Bot(TOKEN)
 
     yieldcurves: sends you yield curves
 
-    
-
-
 
 
 """
-
-
-
-
 
 
 def start(update: Update, context: CallbackContext) -> None:
 
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
-    keyboard = [['/update', '/macro'],
-               ['/yieldcurves', '/info'],
-               ['/list'],]
+    keyboard = [['/updateStocks', '/updateCrypto'],
+               ['/macro', '/yieldCurves'],
+               ['/info', '/list'],]
 
     reply_markup = telegram.ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-    bot.sendMessage(update.message.chat_id, text='Hello! Welcome to the Financial Forecast and Price Prediction Telegram bot!'
-                              ' This bot gives daily price correlations and future price predictions of'
-                              ' Bitcoin, Ether, Monero, USD/EUR, USD/RUB, PYPL, TSLA, SP500, and the Russel 2000!', reply_markup=reply_markup)
+    bot.sendMessage(update.message.chat_id, text='Hello! Welcome to the Financial Outlook Telegram bot!'
+                              ' This bot displays relevant market data as well as broader macroeconomic data', reply_markup=reply_markup)
 
-    update.message.reply_text('Type /update to see the latest correlation matricies and price predictions.'
-                              ' Type /list to see the list of analyzed assets.'
+    update.message.reply_text('Type /updateStocks to see data for stocks'
+                              ' Type /updateCrypto to see data for cryptocurrencies'
+
+                              ' Type /macro to see macroeconomic data'
+                              ' Type /yieldCurves to see US treasury and Russian Government bond yield curves'
                               ' Type /info for more info. All charts are updated daily.')
 
     from datetime import datetime
@@ -98,7 +84,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 
-def update(update, context):
+def updateStocks(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
     # open csv and manipulate data
@@ -387,12 +373,17 @@ def main():
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", start))
     dispatcher.add_handler(CommandHandler("list", list))
-    dispatcher.add_handler(CommandHandler("update", update))
+    dispatcher.add_handler(CommandHandler("updateStocks", updateStocks))
+    dispatcher.add_handler(CommandHandler("updateCrypto", updateStocks))
+
+    dispatcher.add_handler(CommandHandler("macro", matricies))
+
     dispatcher.add_handler(CommandHandler("matricies", matricies))
     dispatcher.add_handler(CommandHandler("yieldcurve", yieldcurve))
+
     dispatcher.add_handler(CommandHandler("info", info))
     dispatcher.add_handler(CommandHandler("moreinfo", moreinfo))
-    dispatcher.add_handler(CommandHandler("GOLD", GOLD))
+    
 
 
     # Start the Bot
