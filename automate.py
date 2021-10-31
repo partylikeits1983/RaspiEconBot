@@ -6,13 +6,14 @@ import schedule
 
 
 def automate():
-   os.system("gnome-terminal -e 'bash -c \"./automatebot.sh; exec bash\"'")
+    os.system("gnome-terminal -e 'bash -c \"./automatebot.sh; exec bash\"'")
+    print()
     #os.system("./automatebot.sh")
     
 schedule.every(1).hour.do(automate)
-schedule.every(1).day.do(automate)
 
 while True:
     schedule.run_pending()
-    t.sleep(1)
+    t.sleep(10)
     print('Waiting to update models.')
+    
