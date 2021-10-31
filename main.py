@@ -203,85 +203,91 @@ def updateCrypto(update, context):
 
     # open csv and manipulate data
 
-    df = pd.read_csv("data/stocks.csv")
 
-    l = ['EURUSD=X', 'RUB=X', 'USDCNY=X', 'CL=F', 'GC=F', 'TSLA', 'PYPL', '^RUT', '^IXIC', '^GSPC']
+    df = pd.read_csv("data/crypto.csv")
+
+    l = ['BTC','ETH','UNI','CRV']
 
     # 1) current price 2) pct change 3) EMA above below 4) RSI
     d = {}
 
     for i in l:
+
+        df = pd.read_csv("data/crypto.csv")
+
+        x = i + '_Close'
         
-        df = pd.read_csv("data/stocks.csv")
+        d["{}_Close".format(i)] = df[x].iloc[-1]
 
-        d["LivePrice{}".format(i)] = df[i].iloc[-1]
+        df = pd.read_csv("data/crypto_pct_change.csv")
 
-        df = pd.read_csv("data/pct_change.csv")
 
-        d["pct_Change{}".format(i)] = df[i].iloc[-1]
-        
+        d["{}_pctChange".format(i)] = df[x].iloc[-1]
+
         df = pd.read_csv("data/{}.csv".format(i))
-        
+
         d["EMA_50{}".format(i)] = df['EMA_50'].iloc[-1]
         d["EMA_200{}".format(i)] = df['EMA_200'].iloc[-1]
         d["RSI{}".format(i)] = df['RSI'].iloc[-1]
 
+    
 
-
-    l2 = ['Euro', 'Ruble', 'CNYen', 'Brent', 'Gold', 'Tesla', 'Paypal', 'Russel', 'Nasdaq', 'DJI']
+    l2 = ['BTC','ETH','UNI','CRV']
 
     message = ''
     x = 0
 
     for i in l2:
+        
         # iterate through list l
         s = l[x]
         # current price string 
-        current = ('%s: ' % i) + str(round(d['LivePrice{}'.format(s)],2))
+        current = ('%s: ' % i) + str(round(d['{}_Close'.format(i)],2))
         # percent change 
-        pct = d['pct_Change{}'.format(s)]
-        
+        pct = d['{}_pctChange'.format(s)]
+
         percent = round((100 * pct),2)
-        
-        
+
+
         # percent change string 
         if percent > 0:
             percentChange = ' 🟢' + str(percent) + 'Δ%'
         else: 
             percentChange = ' 🔴' + str(percent) + 'Δ%'
-        
+
 
         # EMA
         ema50 = round(d['EMA_50{}'.format(s)],2)
         ema200 = round(d['EMA_200{}'.format(s)],2)
-        
+
         #EMA string
         if ema50 > ema200:
-            
+
             EMA = ' EMA trend 📈 '
-            
+
         else: 
             EMA = ' EMA trend 📉 '
-        
+
         #RSI
         rsi = round(d['RSI{}'.format(s)],2)
-        
+
         #RSI string
         if rsi > 70:
             RSI = ' RSI: {}'.format(rsi) + ' 🔥 '
-            
+
         elif rsi < 30:
             RSI = ' RSI: {}'.format(rsi) + ' 💩 '
-            
+
         else:
             RSI = ' RSI: {}'.format(rsi)
-            
-        
+
+
         m = current + percentChange + EMA + RSI + '\n'
-        
+
         message = message + m
-        
+
         x += 1
+
     
     chat_id = update.message.chat_id
 
