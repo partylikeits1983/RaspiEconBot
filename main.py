@@ -43,7 +43,6 @@ bot = telegram.Bot(TOKEN)
 
 """
 
-
 def start(update: Update, context: CallbackContext) -> None:
 
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
@@ -82,8 +81,6 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 
-
-
 def updateStocks(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
@@ -111,7 +108,6 @@ def updateStocks(update, context):
         d["EMA_50{}".format(i)] = df['EMA_50'].iloc[-1]
         d["EMA_200{}".format(i)] = df['EMA_200'].iloc[-1]
         d["RSI{}".format(i)] = df['RSI'].iloc[-1]
-
 
 
     l2 = ['Euro', 'Ruble', 'CNYen', 'Brent', 'Gold', 'Tesla', 'Paypal', 'Russel', 'Nasdaq', 'DJI']
@@ -177,7 +173,6 @@ def updateStocks(update, context):
         'Type /info for more info'
         )
 
-
     from datetime import datetime
     user = update.message.from_user
     chat_id = update.message.chat_id
@@ -194,7 +189,6 @@ def updateStocks(update, context):
         wr.writerow(logfile)
 
     print("{} Name: {} {} Username: {} Chat ID: {} Function: Update". format(dt_string, first_name, last_name , username, chat_id))
-
 
 
 
@@ -297,7 +291,6 @@ def updateCrypto(update, context):
     'Type /info for more info'
     )
 
-
     from datetime import datetime
     user = update.message.from_user
     chat_id = update.message.chat_id
@@ -325,6 +318,7 @@ def matricies(update, context):
     context.bot.send_photo(chat_id, photo, caption)
 
 
+
 def yieldcurve(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
     photo = open('charts/yieldUS.jpeg', 'rb')
@@ -337,6 +331,8 @@ def yieldcurve(update, context):
     caption = "Russian Government Bond Yield Curve {}".format(today)
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id, photo, caption)
+
+
 
 def macro(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
@@ -359,7 +355,6 @@ def info(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(
         'This bot was created by Alexander Lee. This bot was designed to be able to run on an ARM cpu. More features are in the works.'
         )
-
 
     from datetime import datetime
     user = update.message.from_user
@@ -390,6 +385,7 @@ def button(update: Update, _: CallbackContext) -> None:
     query.edit_message_text(text=f"Selected option: {query.data}")
 
 
+
 def main():
     """Run bot."""
     # Create the Updater and pass it your bot's token.
@@ -413,8 +409,6 @@ def main():
     dispatcher.add_handler(CommandHandler("yieldcurve", yieldcurve))
 
     dispatcher.add_handler(CommandHandler("info", info))
-
-    
 
 
     # Start the Bot
