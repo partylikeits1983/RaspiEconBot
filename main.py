@@ -109,7 +109,7 @@ def update(update, context):
     df = pd.read_csv("data/stocks.csv")
 
 
-    l = ['EURUSD=X', 'RUB=X', 'USDCNY=X', 'CL=F', 'GLD', 'TSLA', 'PYPL', '^RUT', '^IXIC', '^GSPC']
+    l = ['EURUSD=X', 'RUB=X', 'USDCNY=X', 'CL=F', 'GC=F', 'TSLA', 'PYPL', '^RUT', '^IXIC', '^GSPC']
 
     # 1) current price 2) pct change 3) EMA above below 4) RSI
     d = {}
