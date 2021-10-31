@@ -99,11 +99,6 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 
-def list(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(
-        'Commands: \n/BTC \n/ETH \n/UNI \n/GOLD \n/OIL  \n/SP500 \n/EUR \n/RUB'
-        )
-
 
 
 def update(update, context):
@@ -114,14 +109,31 @@ def update(update, context):
     df = pd.read_csv("data/stocks.csv")
 
 
+    l = ['EURUSD=X', 'RUB=X', 'USDCNY=X', 'CL=F', 'GLD', 'TSLA', 'PYPL', '^RUT', '^IXIC', '^GSPC']
+
+    # 1) current price 2) pct change 3) EMA above below 4) RSI
+    d = {}
+
+    for i in l:
+        
+        df = pd.read_csv("data/stocks.csv")
+
+        d["LivePrice{}".format(i)] = df[i].iloc[-1]
+
+        df = pd.read_csv("data/pct_change.csv")
+
+        d["pct_Change{}".format(i)] = df[i].iloc[-1]
+        
+        df = pd.read_csv("data/{}.csv".format(i))
+        
+        d["EMA_50{}".format(i)] = df['EMA_50'].iloc[-1]
+        d["EMA_200{}".format(i)] = df['EMA_200'].iloc[-1]
+        d["RSI{}".format(i)] = df['EMA_200'].iloc[-1]
+
+    
+    updateMessage = "Euro"
 
 
-
-
-    USND1 = open('data/USND.txt', 'r').read()
-    USGDP = open('data/USGDP.txt', 'r').read()
-    USDR = open('data/USDR.txt', 'r').read()
-    USEDR = open('data/USEDR.txt', 'r').read()
 
     US = 'US National Debt: %s /n US Nominal GDP: %s /n US Internal Debt to GDP Ratio %s /n US External Debt to GDP Ratio: %s' % (USND1, USGDP, USDR, USEDR)
 
@@ -162,6 +174,25 @@ def update(update, context):
         wr.writerow(logfile)
 
     print("{} Name: {} {} Username: {} Chat ID: {} Function: Update". format(dt_string, first_name, last_name , username, chat_id))
+
+
+
+
+
+
+
+
+
+
+
+def list(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text(
+        'Commands: \n/BTC \n/ETH \n/UNI \n/GOLD \n/OIL  \n/SP500 \n/EUR \n/RUB'
+        )
+
+
+
+
 
 
 
