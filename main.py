@@ -98,16 +98,12 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 
-
-
-
 def update(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
     # open csv and manipulate data
 
     df = pd.read_csv("data/stocks.csv")
-
 
     l = ['EURUSD=X', 'RUB=X', 'USDCNY=X', 'CL=F', 'GC=F', 'TSLA', 'PYPL', '^RUT', '^IXIC', '^GSPC']
 
@@ -128,9 +124,9 @@ def update(update, context):
         
         d["EMA_50{}".format(i)] = df['EMA_50'].iloc[-1]
         d["EMA_200{}".format(i)] = df['EMA_200'].iloc[-1]
-        d["RSI{}".format(i)] = df['EMA_200'].iloc[-1]
+        d["RSI{}".format(i)] = df['RSI'].iloc[-1]
 
-    
+
 
     l2 = ['Euro', 'Ruble', 'CNYen', 'Brent', 'Gold', 'Tesla', 'Paypal', 'Russel', 'Nasdaq', 'DJI']
 
@@ -141,7 +137,7 @@ def update(update, context):
         # iterate through list l
         s = l[x]
         # current price string 
-        current = ('%s: ' % i) + str(round(d['LivePrice{}'.format(s)],2))
+        current = ('%s: $' % i) + str(round(d['LivePrice{}'.format(s)],2))
         # percent change 
         pct = d['pct_Change{}'.format(s)]
         
@@ -186,7 +182,8 @@ def update(update, context):
         message = message + m
         
         x += 1
-        
+    
+
 
 
     chat_id = update.message.chat_id
