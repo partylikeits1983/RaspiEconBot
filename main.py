@@ -174,7 +174,7 @@ def updateStocks(update, context):
     bot.send_message(chat_id, message)
 
     update.message.reply_text(
-        'Type /list to view specific assets'
+        'Type /info for more info'
         )
 
 
@@ -294,8 +294,8 @@ def updateCrypto(update, context):
     bot.send_message(chat_id, message)
 
     update.message.reply_text(
-        'Type /list to view specific assets'
-        )
+    'Type /info for more info'
+    )
 
 
     from datetime import datetime
@@ -319,10 +319,6 @@ def updateCrypto(update, context):
 
 
 
-
-
-
-
 def list(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(
         'Commands: \n/BTC \n/ETH \n/UNI \n/GOLD \n/OIL  \n/SP500 \n/EUR \n/RUB'
@@ -341,11 +337,6 @@ def matricies(update, context):
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id, photo, caption)
 
-    photo = open('/home/ubuntu/Desktop/TelegramBot/charts/correlationmatrix30.jpeg', 'rb')
-    caption = "30 day correlation matrix {}".format(today)
-    chat_id = update.message.chat_id
-    context.bot.send_photo(chat_id, photo, caption)
-
 
 def yieldcurve(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
@@ -360,77 +351,28 @@ def yieldcurve(update, context):
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id, photo, caption)
 
-
-def GOLD(update, context):
+def macro(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
-    photo = open('/home/ubuntu/Desktop/TelegramBot/charts/GOLDforcast.jpeg', 'rb')
-    caption = "Gold forcast chart for {}".format(today)
+    photo = open('charts/giniUS.jpeg', 'rb')
+    caption = "US Gini Index {}".format(today)
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id, photo, caption)
 
-    photo = open('/home/ubuntu/Desktop/TelegramBot/charts/GOLDtrend.jpeg', 'rb')
-    caption = "Gold performance {}".format(today)
+    context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
+    photo = open('charts/giniUSlinRegression.jpeg', 'rb')
+    caption = "Linear Regression on US Gini Index {}".format(today)
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id, photo, caption)
-
-    photo = open('/home/ubuntu/Desktop/TelegramBot/charts/GOLDforcastwithlines.jpeg', 'rb')
-    caption = "Gold performance {}".format(today)
-    chat_id = update.message.chat_id
-    context.bot.send_photo(chat_id, photo, caption)
-
-    photo = open('/home/ubuntu/Desktop/TelegramBot/charts/GOLDml.jpeg', 'rb')
-    caption = "Actual vs Predicted price of ML model {}".format(today)
-    chat_id = update.message.chat_id
-    context.bot.send_photo(chat_id, photo, caption)
-
-    GOLD1 = open('/home/ubuntu/Desktop/TelegramBot/predictions/futurepriceGOLD.txt', 'r').read()
-    GOLD2 = open('/home/ubuntu/Desktop/TelegramBot/predictions/meanabsoluteerrorGOLD.txt', 'r').read()
-    GOLD3 = open('/home/ubuntu/Desktop/TelegramBot/predictions/buyprofitGOLD.txt', 'r').read()
-    GOLD4 = open('/home/ubuntu/Desktop/TelegramBot/predictions/sellprofitGOLD.txt', 'r').read()
-    GOLD5 = open('/home/ubuntu/Desktop/TelegramBot/predictions/totalprofitGOLD.txt', 'r').read()
-    GOLD6 = open('/home/ubuntu/Desktop/TelegramBot/predictions/profitpertradeGOLD.txt', 'r').read()
-
-
-    if type(GOLD1) or type(GOLD2) == int or float:
-        #calculating Δ%
-        ngold = float(GOLD1)
-        s = pd.Series([si.get_live_price("GC=F"), ngold])
-        s.pct_change()
-        normal_sum = s.pct_change()
-        normal_sum.at[1]
-        dvGOLD = str(round((normal_sum.at[1] * 100), 2))
-        #calculating % error
-        ngold2 = float(GOLD2)
-        e = (ngold2 / ngold) * 100
-        eGOLD = '%.2f' % e
-        GOLD = 'Predicted price of Gold in 7 days $%s   (Δ%s%%)\n Model Error: %s%% \n Total buy profit: %s\n Total sell profit: %s \n Total profit: %s \n Profit per trade: %s \n' % (GOLD1, dvGOLD, eGOLD, GOLD3, GOLD4, GOLD5, GOLD6)
-        chat_id = update.message.chat_id
-        bot.send_message(chat_id, GOLD)
-    else:
-        text = 'Yahoo Finance is missing data for this asset. Could not run prediction model at this time.'
-        chat_id = update.message.chat_id
-        bot.send_message(chat_id, text)
-
 
 
 
 def info(update: Update, context: CallbackContext) -> None:
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
-    update.message.reply_text(
-        'This bot uses deep learning LSTM models to analyze time series data of asset prices. All charts and predictions are updated daily.'
-        ' Type /update to get stock price correlations.')
 
     update.message.reply_text(
-        'This bot was created by Alexander Lee and uses Tensorflow to analyze time series data. (Go to https://www.tensorflow.org to read more)'
+        'This bot was created by Alexander Lee'
         )
 
-    update.message.reply_text(
-        'What does it mean when the bot sends "percent error" alongside the price prediction? This is the machine learning model\'s average prediction error when it was training on the historical price data. In machine learning this is called "mean absolute error". Read more about it here: https://en.wikipedia.org/wiki/Mean_absolute_error'
-        )
-
-    update.message.reply_text(
-        'Type /moreinfo for more information'
-    )
 
     from datetime import datetime
     user = update.message.from_user
@@ -449,15 +391,6 @@ def info(update: Update, context: CallbackContext) -> None:
 
     print("{} Name: {} {} Username: {} Chat ID: {} Function: More Info". format(dt_string, first_name, last_name , username, chat_id))
 
-
-def moreinfo(update: Update, context: CallbackContext) -> None:
-    context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
-    update.message.reply_text(
-        'If you like this bot please consider helping keeping it up and running! My ETH address: 0xC2e647AD0a1dF0EC67dC26EB39f3fD57171e13Fe\n This bot consumes on average 30w per hour @ 0.087 cents per kWh ~ $3 a month.')
-
-    update.message.reply_text('Disclaimer: This bot is provided for informational '
-                              ' and entertainment purposes only. Any price prediction data generated by this bot does not constitute investment advice.'
-                              ' If you like this bot, please consider sharing it!')
 
 
 def button(update: Update, _: CallbackContext) -> None:
@@ -487,13 +420,13 @@ def main():
     dispatcher.add_handler(CommandHandler("updateStocks", updateStocks))
     dispatcher.add_handler(CommandHandler("updateCrypto", updateCrypto))
 
-    dispatcher.add_handler(CommandHandler("macro", matricies))
+    dispatcher.add_handler(CommandHandler("macro", macro))
 
     dispatcher.add_handler(CommandHandler("matricies", matricies))
     dispatcher.add_handler(CommandHandler("yieldcurve", yieldcurve))
 
     dispatcher.add_handler(CommandHandler("info", info))
-    dispatcher.add_handler(CommandHandler("moreinfo", moreinfo))
+
     
 
 
