@@ -177,11 +177,14 @@ year = dt.year
 month = dt.month - 1
 day = dt.day
 
-d = datetime.date(year, month, day)
 wd = d.weekday()
 
 if wd == 6:
     day = dt.day - 2
+
+d = datetime.date(year, month, day)
+
+
 
 # one month ago link:
 url = 'http://www.cbr.ru/eng/hd_base/zcyc_params/zcyc/?UniDbQuery.Posted=True&UniDbQuery.To=27%2F09%2F2021'
