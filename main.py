@@ -49,8 +49,8 @@ def start(update: Update, context: CallbackContext) -> None:
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
     keyboard = [['/updateStocks', '/updateCrypto'],
-               ['/macro', '/yieldCurves'],
-               ['/info', '/list'],]
+               ['/macro', '/yieldCurve'],
+               ['/info'],]
 
     reply_markup = telegram.ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     bot.sendMessage(update.message.chat_id, text='Hello! Welcome to the Financial Outlook Telegram bot!'
