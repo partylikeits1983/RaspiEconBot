@@ -177,7 +177,7 @@ year = dt.year
 month = dt.month - 1
 day = dt.day
 
-wd = d.weekday()
+wd = dt.weekday()
 
 if wd == 6:
     day = dt.day - 2
