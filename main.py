@@ -317,19 +317,6 @@ def updateCrypto(update, context):
 
 
 
-
-
-def list(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(
-        'Commands: \n/BTC \n/ETH \n/UNI \n/GOLD \n/OIL  \n/SP500 \n/EUR \n/RUB'
-        )
-
-
-
-
-
-
-
 def matricies(update, context):
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
     photo = open('charts/correlationmatrix30.jpeg', 'rb')
@@ -370,7 +357,7 @@ def info(update: Update, context: CallbackContext) -> None:
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
     update.message.reply_text(
-        'This bot was created by Alexander Lee'
+        'This bot was created by Alexander Lee. This bot was designed to be able to run on an ARM cpu. More features are in the works.'
         )
 
 
@@ -385,7 +372,7 @@ def info(update: Update, context: CallbackContext) -> None:
     dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
     logfile = [dt_string, chat_id, fullname, username, 'update']
 
-    with open('/home/ubuntu/Desktop/telegrambotlog.csv', 'a', newline='') as myfile:
+    with open('telegrambotlog.csv', 'a', newline='') as myfile:
         wr = csv.writer(myfile)
         wr.writerow(logfile)
 
