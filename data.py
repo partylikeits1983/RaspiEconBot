@@ -504,7 +504,7 @@ df = df.set_index(df['Date'])
 df = df.drop(['Date'], axis=1)
 
 df = df.pct_change()
-
+df.to_csv("data/pct_change.csv")
 
 
 ################# indicators for stonks 
