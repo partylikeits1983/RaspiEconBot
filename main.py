@@ -50,8 +50,8 @@ def start(update: Update, context: CallbackContext) -> None:
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
 
     keyboard = [['/updateStocks', '/updateCrypto'],
-               ['/macro', '/yieldCurve'],
-               ['/info'],]
+               ['/macro', '/macroStats'],
+               ['/yieldCurve', '/info'],]
 
     reply_markup = telegram.ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     bot.sendMessage(update.message.chat_id, text='Hello! Welcome to the Financial Outlook Telegram bot!'
@@ -357,6 +357,8 @@ def macroStats(update, context):
 
     varListNames = ["USND", "USGDP", "USDR", "USEDR", "ZHND", "ZHGDP", "ZHDR", "ZHEDR", "JPND", "JPGDP", "JPDR", "JPEDR", "DEDR", "DEGDP", "DEDR", "DEEDR", "UKND", "UKGDP", "UKDR", "UKEDR", "RUND", "RUGDP", "RUDR", "RUEDR"]
 
+    countryFlags = ["🇺🇸", "🇨🇳", "🇯🇵", "🇩🇪", "🇬🇧", "🇷🇺"]
+
     d = {}
 
     # read data and set to variable 
@@ -365,16 +367,26 @@ def macroStats(update, context):
         with open('data/%s.txt' % i, 'r') as file:
             data = file.read().replace('\n', '')
             d[i] = data
-
     
+
     message = ''
+    n = 0
+    y = 0
     for i in varListNames:
     
         name = i
         value = d[i]
+        
+        if n == 0:
+            flag = countryFlags[y]
+
+        elif (n % 4) == 0:
+            y += 1 
+            flag = countryFlags[y]
+        
+        message += (flag + ' ' + name + ' ' + str(value) + '\n')
     
-        message += (name + ' ' + value + '\n')
-    
+    n += 1
     
     chat_id = update.message.chat_id
 
