@@ -392,6 +392,12 @@ def macroStats(update, context):
 
     bot.send_message(chat_id, message)
 
+    update.message.reply_text(
+    '-ND = National Debt\n'
+    '-GDP = GDP\n'
+    '-DR = Domestic Debt to GDP ratio\n'
+    '-EDR = External Debt to GDP ratio\n'
+    )
 
 
 
