@@ -439,7 +439,7 @@ def main():
     dispatcher.add_handler(CommandHandler("updateCrypto", updateCrypto))
 
     dispatcher.add_handler(CommandHandler("macro", macro))
-    dispatcher.add_handler(CommandHandler("macro", macroStats))
+    dispatcher.add_handler(CommandHandler("macroStats", macroStats))
 
     dispatcher.add_handler(CommandHandler("matricies", matricies))
     dispatcher.add_handler(CommandHandler("yieldcurve", yieldcurve))
