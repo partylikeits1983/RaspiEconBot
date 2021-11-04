@@ -373,8 +373,7 @@ def macroStats(update, context):
         name = i
         value = d[i]
     
-    
-    message += (name + ' ' + value + '\n')
+        message += (name + ' ' + value + '\n')
     
     
     chat_id = update.message.chat_id
