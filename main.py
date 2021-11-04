@@ -61,7 +61,7 @@ def start(update: Update, context: CallbackContext) -> None:
                               ' Type /updateCrypto to see data for cryptocurrencies\n'
 
                               ' Type /macro to see macroeconomic charts\n'
-                              ' Type /macfoStats to see macroeconomic data'
+                              ' Type /macroStats to see macroeconomic data\n'
                               ' Type /yieldCurve to see US treasury and Russian Government bond yield curves\n'
                               ' Type /info for more info. All charts are updated daily.')
 
