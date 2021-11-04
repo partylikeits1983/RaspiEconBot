@@ -173,6 +173,7 @@ def updateStocks(update, context):
 
     update.message.reply_text(
         'Type /info for more info'
+        'Type /macro or /yieldCurve for more data'
         )
 
     from datetime import datetime
@@ -290,8 +291,9 @@ def updateCrypto(update, context):
     bot.send_message(chat_id, message)
 
     update.message.reply_text(
-    'Type /info for more info'
-    )
+        'Type /info for more info'
+        'Type /macro or /yieldCurve for more data'
+        )
 
     from datetime import datetime
     user = update.message.from_user
@@ -348,6 +350,37 @@ def macro(update, context):
     caption = "Linear Regression on US Gini Index {}".format(today)
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id, photo, caption)
+
+
+def macroStats(update, context):
+    context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
+
+    varListNames = ["USND", "USGDP", "USDR", "USEDR", "ZHND", "ZHGDP", "ZHDR", "ZHEDR", "JPND", "JPGDP", "JPDR", "JPEDR", "DEDR", "DEGDP", "DEDR", "DEEDR", "UKND", "UKGDP", "UKDR", "UKEDR", "RUND", "RUGDP", "RUDR", "RUEDR"]
+
+    d = {}
+
+    # read data and set to variable 
+    for i in varListNames:
+    
+        with open('data/%s.txt' % i, 'r') as file:
+            data = file.read().replace('\n', '')
+            d[i] = data
+
+    
+    message = ''
+    for i in varListNames:
+    
+        name = i
+        value = d[i]
+    
+    
+    message += (name + ' ' + value + '\n')
+    
+    
+    chat_id = update.message.chat_id
+
+    bot.send_message(chat_id, message)
+
 
 
 
