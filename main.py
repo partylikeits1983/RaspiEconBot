@@ -25,8 +25,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 token = open('/home/pi/Desktop/token.txt', 'r').read()
 
-TOKEN = token.replace('\n', ' ').replace('\r', '')
-
+TOKEN = token.replace('\n', '')
 
 today = date.today()
 
