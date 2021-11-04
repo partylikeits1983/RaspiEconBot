@@ -22,7 +22,7 @@ import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
-TOKEN = str(input("input token"))
+TOKEN = str(open('/home/pi/Desktop/token.txt', 'r').read())
 
 today = date.today()
 
@@ -38,7 +38,6 @@ bot = telegram.Bot(TOKEN)
     marcrocharts: sends you gini and stuff
 
     yieldcurves: sends you yield curves
-
 
 
 """
@@ -59,7 +58,7 @@ def start(update: Update, context: CallbackContext) -> None:
                               ' Type /updateCrypto to see data for cryptocurrencies'
 
                               ' Type /macro to see macroeconomic data'
-                              ' Type /yieldCurves to see US treasury and Russian Government bond yield curves'
+                              ' Type /yieldCurve to see US treasury and Russian Government bond yield curves'
                               ' Type /info for more info. All charts are updated daily.')
 
     from datetime import datetime
