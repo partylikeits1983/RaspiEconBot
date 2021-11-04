@@ -386,7 +386,7 @@ def macroStats(update, context):
         
         message += (flag + ' ' + name + ' ' + str(value) + '\n')
     
-    n += 1
+        n += 1
     
     chat_id = update.message.chat_id
 
