@@ -434,11 +434,12 @@ def main():
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", start))
-    dispatcher.add_handler(CommandHandler("list", list))
+    
     dispatcher.add_handler(CommandHandler("updateStocks", updateStocks))
     dispatcher.add_handler(CommandHandler("updateCrypto", updateCrypto))
 
     dispatcher.add_handler(CommandHandler("macro", macro))
+    dispatcher.add_handler(CommandHandler("macro", macroStats))
 
     dispatcher.add_handler(CommandHandler("matricies", matricies))
     dispatcher.add_handler(CommandHandler("yieldcurve", yieldcurve))
