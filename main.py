@@ -55,13 +55,14 @@ def start(update: Update, context: CallbackContext) -> None:
 
     reply_markup = telegram.ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     bot.sendMessage(update.message.chat_id, text='Hello! Welcome to the Financial Outlook Telegram bot!'
-                              ' This bot displays relevant market data as well as broader macroeconomic data', reply_markup=reply_markup)
+                              ' This bot displays relevant market data as well as broader macroeconomic data.', reply_markup=reply_markup)
 
-    update.message.reply_text('Type /updateStocks to see data for stocks'
-                              ' Type /updateCrypto to see data for cryptocurrencies'
+    update.message.reply_text('Type /updateStocks to see data for stocks\n'
+                              ' Type /updateCrypto to see data for cryptocurrencies\n'
 
-                              ' Type /macro to see macroeconomic data'
-                              ' Type /yieldCurve to see US treasury and Russian Government bond yield curves'
+                              ' Type /macro to see macroeconomic charts\n'
+                              ' Type /macfoStats to see macroeconomic data'
+                              ' Type /yieldCurve to see US treasury and Russian Government bond yield curves\n'
                               ' Type /info for more info. All charts are updated daily.')
 
     from datetime import datetime
