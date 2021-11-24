@@ -426,10 +426,8 @@ def info(update: Update, context: CallbackContext) -> None:
     for link in soup.find_all('relative-time'):
         lastUpdate = link.get('datetime')
         datetime_object = datetime.strptime(lastUpdate, '%Y-%m-%dT%H:%M:%SZ')
-
-    
-    
-    update.message.reply_text(f'Bot was last updated on {datetime_object}')
+        
+        update.message.reply_text(f'Bot was last updated on {datetime_object}')
 
                               
     from datetime import datetime
