@@ -178,11 +178,11 @@ print(rates)
 
 
 #yield curve CBRF one month ago
+dt = datetime.datetime.today()
 year = dt.year
 month = dt.month - 1
 day = dt.day
 
-dt = datetime.datetime.today()
 d = datetime.date(year, month, day)
 
 wd = d.weekday()
