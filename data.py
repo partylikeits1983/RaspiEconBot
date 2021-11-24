@@ -133,21 +133,27 @@ plt.savefig('charts/yieldUS.jpeg', dpi=400, bbox_inches='tight')
 
 
 ###### Russian yield curve
-
 dt = datetime.datetime.today()
 year = dt.year
 month = dt.month
 day = dt.day - 1
 
 d = datetime.date(year, month, day)
+
 wd = d.weekday()
 
-if wd == 6:
+
+if wd == 5:
+    day = dt.day - 1
+    print (day)
+elif wd == 6:
     day = dt.day - 2
 
 
-#yield curve CBRF now
-url = 'http://www.cbr.ru/eng/hd_base/zcyc_params/zcyc/?UniDbQuery.Posted=True&UniDbQuery.To=%sF%sF%s' % (day, month, year)       
+
+# rates now link:
+url = 'http://www.cbr.ru/eng/hd_base/zcyc_params/zcyc/?UniDbQuery.Posted=True&UniDbQuery.To=%s.%s.%s' % (day, month, year)       
+print(url)
 
 # Connect to the URL
 response = requests.get(url)
@@ -170,25 +176,30 @@ for i in range(12):
 print(rates)
 
 
-import datetime
 
 #yield curve CBRF one month ago
-dt = datetime.datetime.today()
 year = dt.year
 month = dt.month - 1
 day = dt.day
 
+dt = datetime.datetime.today()
 d = datetime.date(year, month, day)
-wd = dt.weekday()
 
-if wd == 6:
+wd = d.weekday()
+
+
+if wd == 5:
+    day = dt.day - 1
+    print (day)
+
+elif wd == 6:
     day = dt.day - 2
 
 
 
 # one month ago link:
-url = 'http://www.cbr.ru/eng/hd_base/zcyc_params/zcyc/?UniDbQuery.Posted=True&UniDbQuery.To=%sF%sF%s' % (day, month, year)       
-
+url = 'http://www.cbr.ru/eng/hd_base/zcyc_params/zcyc/?UniDbQuery.Posted=True&UniDbQuery.To=%s.%s.%s' % (day, month, year)       
+print(url)
 
 # Connect to the URL
 response = requests.get(url)
