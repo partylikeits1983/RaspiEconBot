@@ -419,7 +419,7 @@ def info(update: Update, context: CallbackContext) -> None:
         'This bot was created by Alexander Lee. This bot was designed to be able to run on an ARM cpu. Data Scrapped from Russian Central bank & US Federal Reserve websites. More features are in the works.'
         )
     
-    update.message.reply_text(f'Bot was last updated on {datetime_object}'')
+    update.message.reply_text(f'Bot was last updated on {datetime_object}')
 
                               
     from datetime import datetime
