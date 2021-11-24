@@ -57,6 +57,7 @@ soup = BeautifulSoup(response.text, "html.parser")
 
 for link in soup.find_all('relative-time'):
     lastUpdate = link.get('datetime')
+    global datetime_object
     datetime_object = datetime.strptime(lastUpdate, '%Y-%m-%dT%H:%M:%SZ')
 
 
