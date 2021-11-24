@@ -7,7 +7,7 @@ This bot was designed to be able to do basic market analysis without using machi
 | | | 
 |:-------------------------:|:-------------------------:|
 |![](doc/bot1.png)|![](doc/bot2.png)|
-|![](doc/yieldUS.png)|![](doc/yieldRU.png)|
+|![](doc/yieldUS.jpg)|![](doc/yieldRU.jpg)|
 
 
 
