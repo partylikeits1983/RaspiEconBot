@@ -45,6 +45,15 @@ bot = telegram.Bot(TOKEN)
 
 """
 
+url = "https://github.com/partylikeits1983/RaspiEconBot"
+response = requests.get(url)
+soup = BeautifulSoup(response.text, "html.parser")
+
+for link in soup.find_all('relative-time'):
+    lastUpdate = link.get('datetime')
+    datetime_object = datetime.strptime(lastUpdate, '%Y-%m-%dT%H:%M:%SZ')
+
+
 def start(update: Update, context: CallbackContext) -> None:
 
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
@@ -404,11 +413,15 @@ def macroStats(update, context):
 
 def info(update: Update, context: CallbackContext) -> None:
     context.bot.sendChatAction(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
+   
 
     update.message.reply_text(
         'This bot was created by Alexander Lee. This bot was designed to be able to run on an ARM cpu. Data Scrapped from Russian Central bank & US Federal Reserve websites. More features are in the works.'
         )
+    
+    update.message.reply_text(f'Bot was last updated on {datetime_object}'')
 
+                              
     from datetime import datetime
     user = update.message.from_user
     chat_id = update.message.chat_id
