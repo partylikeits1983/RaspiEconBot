@@ -55,9 +55,10 @@ url = "https://github.com/partylikeits1983/RaspiEconBot"
 response = requests.get(url)
 soup = BeautifulSoup(response.text, "html.parser")
 
+global datetime_object
+
 for link in soup.find_all('relative-time'):
     lastUpdate = link.get('datetime')
-    global datetime_object
     datetime_object = datetime.strptime(lastUpdate, '%Y-%m-%dT%H:%M:%SZ')
 
 
