@@ -1,6 +1,7 @@
 # RaspiEconBot
 
 This bot was designed to be able to do basic market analysis without using machine learning libraries. 
+The bot is currently running at @financialforecastbot on telegram. 
 
 ## Screenshots:
 
@@ -10,4 +11,3 @@ This bot was designed to be able to do basic market analysis without using machi
 |![](doc/yieldUS.jpg)|![](doc/yieldRU.jpg)|
 
 
-The bot is currently running at @financialforecastbot on telegram. 
