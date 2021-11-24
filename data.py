@@ -170,6 +170,7 @@ for i in range(12):
 print(rates)
 
 
+import datetime
 
 #yield curve CBRF one month ago
 dt = datetime.datetime.today()
@@ -177,17 +178,17 @@ year = dt.year
 month = dt.month - 1
 day = dt.day
 
+d = datetime.date(year, month, day)
 wd = dt.weekday()
 
 if wd == 6:
     day = dt.day - 2
 
-d = datetime.date(year, month, day)
-
 
 
 # one month ago link:
-url = 'http://www.cbr.ru/eng/hd_base/zcyc_params/zcyc/?UniDbQuery.Posted=True&UniDbQuery.To=27%2F09%2F2021'
+url = 'http://www.cbr.ru/eng/hd_base/zcyc_params/zcyc/?UniDbQuery.Posted=True&UniDbQuery.To=%sF%sF%s' % (day, month, year)       
+
 
 # Connect to the URL
 response = requests.get(url)
